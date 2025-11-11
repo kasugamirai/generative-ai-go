@@ -144,19 +144,19 @@ func (c *Client) Close() error {
 // Create one with [Client.GenerativeModel], then configure
 // it by setting the exported fields.
 type GenerativeModel struct {
-	c        *Client
-	fullName string
-
 	GenerationConfig
-	SafetySettings []*SafetySetting
-	Tools          []*Tool
-	ToolConfig     *ToolConfig // configuration for tools
+	c          *Client
+	ToolConfig *ToolConfig // configuration for tools
 	// SystemInstruction (also known as "system prompt") is a more forceful prompt to the model.
 	// The model will adhere the instructions more strongly than if they appeared in a normal prompt.
 	SystemInstruction *Content
+	fullName          string
+
 	// The name of the CachedContent to use.
 	// Must have already been created with [Client.CreateCachedContent].
 	CachedContentName string
+	SafetySettings    []*SafetySetting
+	Tools             []*Tool
 }
 
 // GenerativeModel creates a new instance of the named generative model.

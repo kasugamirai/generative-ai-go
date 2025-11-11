@@ -31,16 +31,8 @@ import (
 // It is not used by developers directly.
 type ResumableUpload struct {
 	Client *http.Client
-	// URI is the resumable resource destination provided by the server after specifying "&uploadType=resumable".
-	URI       string
-	UserAgent string // User-Agent for header of the request
 	// Media is the object being uploaded.
 	Media *MediaBuffer
-	// MediaType defines the media type, e.g. "image/jpeg".
-	MediaType string
-
-	mu       sync.Mutex // guards progress
-	progress int64      // number of bytes uploaded so far
 
 	// Callback is an optional function that will be periodically called with the cumulative number of bytes uploaded.
 	Callback func(int64)
@@ -48,14 +40,24 @@ type ResumableUpload struct {
 	// Retry optionally configures retries for requests made against the upload.
 	Retry *RetryConfig
 
-	// ChunkRetryDeadline configures the per-chunk deadline after which no further
-	// retries should happen.
-	ChunkRetryDeadline time.Duration
+	// URI is the resumable resource destination provided by the server after specifying "&uploadType=resumable".
+	URI       string
+	UserAgent string // User-Agent for header of the request
+	// MediaType defines the media type, e.g. "image/jpeg".
+	MediaType string
 
 	// Track current request invocation ID and attempt count for retry metrics
 	// and idempotency headers.
 	invocationID string
-	attempts     int
+	progress     int64 // number of bytes uploaded so far
+
+	// ChunkRetryDeadline configures the per-chunk deadline after which no further
+	// retries should happen.
+	ChunkRetryDeadline time.Duration
+
+	attempts int
+
+	mu sync.Mutex // guards progress
 }
 
 // Progress returns the number of bytes uploaded at this point.

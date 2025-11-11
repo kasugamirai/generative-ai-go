@@ -26,8 +26,9 @@ import (
 type MediaBuffer struct {
 	media io.Reader
 
+	err error // Any error generated when populating chunk by reading media.
+
 	chunk []byte // The current chunk which is pending upload.  The capacity is the chunk size.
-	err   error  // Any error generated when populating chunk by reading media.
 
 	// The absolute position of chunk in the underlying media.
 	off int64

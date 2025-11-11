@@ -147,11 +147,11 @@ type MediaInfo struct {
 	// At most one of Media and MediaBuffer will be set.
 	media              io.Reader
 	buffer             *MediaBuffer
-	singleChunk        bool
+	progressUpdater    googleapi.ProgressUpdater
 	mType              string
 	size               int64 // mediaSize, if known.  Used only for calls to progressUpdater_.
-	progressUpdater    googleapi.ProgressUpdater
 	chunkRetryDeadline time.Duration
+	singleChunk        bool
 }
 
 // NewInfoFromMedia should be invoked from the Media method of a call. It returns a

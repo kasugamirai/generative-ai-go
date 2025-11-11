@@ -82,8 +82,8 @@ func newEmbedContentRequest(model string, tt TaskType, title string, parts []Par
 
 // An EmbeddingBatch holds a collection of embedding requests.
 type EmbeddingBatch struct {
-	tt  TaskType
 	req *pb.BatchEmbedContentsRequest
+	tt  TaskType
 }
 
 // NewBatch returns a new, empty EmbeddingBatch with the same TaskType as the model.
